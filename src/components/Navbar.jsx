@@ -1,117 +1,38 @@
-import { Instagram, Facebook, Menu, X } from "lucide-react";
-import { useState } from "react";
-import logo from "../assets/images/contador_express_general.webp";
+import { useState, useEffect } from "react";
+import { Instagram, Facebook } from "lucide-react";
+
+const logo = "/icons/contador_express_general.webp";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4">
-        <a href="/" className="flex items-center gap-2">
-          <img
-            src={logo}
-            alt="Tu Contador Express"
-            width={140}
-            height={60}
-            className="h-[60px] w-auto object-contain"
-          />
+    <header className={`sticky top-0 z-50 w-full border-b border-gray-200 bg-white overflow-hidden transition-all duration-300 ${scrolled ? "h-12 md:h-14" : "h-16 md:h-20"}`}>
+      <div className="container mx-auto flex h-full items-center justify-between px-4">
+
+        <a href="/" className="flex items-center">
+          <img src={logo} alt="Tu Contador Express" className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-8 md:h-10" : "h-10 md:h-14"}`} />
         </a>
 
-        <div className="hidden md:flex gap-2">
-          <a
-            href="https://www.instagram.com/tucontador.express/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center rounded-lg bg-yellow-400 p-2.5 transition-colors hover:bg-yellow-500"
-          >
-            <Instagram size={24} color="#002B49" />
+        <div className="flex gap-1.5 md:gap-2">
+          <a href="https://www.instagram.com/tucontador.express/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center rounded-lg bg-yellow-400 p-2 md:p-2.5 transition-colors hover:bg-yellow-500">
+            <Instagram size={18} className="md:w-[30px] md:h-[30px]" color="#002B49" />
           </a>
-          <a
-            href="https://www.facebook.com/tucontadorexpress"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center rounded-lg bg-yellow-400 p-2.5 transition-colors hover:bg-yellow-500"
-          >
-            <Facebook size={24} color="#002B49" />
+          <a href="https://www.facebook.com/tucontadorexpress" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center rounded-lg bg-yellow-400 p-2 md:p-2.5 transition-colors hover:bg-yellow-500">
+            <Facebook size={18} className="md:w-[30px] md:h-[30px]" color="#002B49" />
           </a>
-          <a
-            href="#contacto"
-            className="flex items-center justify-center rounded-lg bg-yellow-400 px-6 py-2 font-extrabold text-[#002B49] transition-colors hover:bg-yellow-500"
-          >
+          <a href="#contacto" className="flex items-center justify-center rounded-lg bg-yellow-400 px-2 md:px-8 py-2 md:py-3 text-xs md:text-lg font-extrabold text-[#002B49] transition-colors hover:bg-yellow-500">
             CONTÁCTANOS
           </a>
         </div>
 
-        <button
-          className="flex md:hidden items-center justify-center rounded-lg bg-yellow-400 p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? (
-            <X size={24} color="#002B49" />
-          ) : (
-            <Menu size={24} color="#002B49" />
-          )}
-        </button>
       </div>
-
-      {menuOpen && (
-        <div className="md:hidden flex flex-col gap-3 border-t border-gray-200 bg-white px-4 py-4">
-          <a
-            href="#Nosotros"
-            onClick={() => setMenuOpen(false)}
-            className="font-bold text-[#002B49] hover:text-yellow-500"
-          >
-            Sobre Nosotros
-          </a>
-          <a
-            href="#servicios"
-            onClick={() => setMenuOpen(false)}
-            className="font-bold text-[#002B49] hover:text-yellow-500"
-          >
-            Servicios
-          </a>
-          <a
-            href="#como-funcionamos"
-            onClick={() => setMenuOpen(false)}
-            className="font-bold text-[#002B49] hover:text-yellow-500"
-          >
-            ¿Cómo Funcionamos?
-          </a>
-          <a
-            href="#soluciones"
-            onClick={() => setMenuOpen(false)}
-            className="font-bold text-[#002B49] hover:text-yellow-500"
-          >
-            Lo que necesitas
-          </a>
-          <a
-            href="#contacto"
-            onClick={() => setMenuOpen(false)}
-            className="flex justify-center rounded-lg bg-yellow-400 px-6 py-3 font-extrabold text-[#002B49] hover:bg-yellow-500"
-          >
-            CONTÁCTANOS
-          </a>
-          <div className="flex gap-2">
-            <a
-              href="https://www.instagram.com/tucontador.express/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center rounded-lg bg-yellow-400 p-2.5 hover:bg-yellow-500"
-            >
-              <Instagram size={24} color="#002B49" />
-            </a>
-            <a
-              href="https://www.facebook.com/tucontadorexpress"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center rounded-lg bg-yellow-400 p-2.5 hover:bg-yellow-500"
-            >
-              <Facebook size={24} color="#002B49" />
-            </a>
-          </div>
-        </div>
-      )}
     </header>
   );
 };
